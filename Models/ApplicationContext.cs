@@ -19,7 +19,5 @@ namespace MVC_Web_App.Models
                 .WithMany(g => g.Contacts)
                 .HasForeignKey(c => c.ContactGroupId);
         }
-
-
-    }
+            }
 }

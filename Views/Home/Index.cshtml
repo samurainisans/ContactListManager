@@ -1,1 +1,61 @@
-﻿
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MVC_Web_App.Models
+@model IndexViewModel
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<h1 class="my-4">Список контактов</h1>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Добавить новый контакт</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Электронная почта</th>
+            <th>Телефон</th>
+            <th>Адрес</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Contact contact in Model.Contacts)
+        {
+            <tr>
+                <td>@contact.Name</td>
+                <td>@contact.Email</td>
+                <td>@contact.Phone</td>
+                <td>@contact.Address</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@contact.Id" class="btn btn-secondary btn-sm">Редактировать</a>
+                    <form asp-action="Delete" asp-controller="Contacts" method="post" asp-route-id="@contact.Id" class="d-inline">
+                        <input type="submit" value="Удалить" class="btn btn-danger btn-sm" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.PageViewModel.PageNumber - 1 })">Назад</a>
+            </li>
+        }
+        @if (Model.PageViewModel.HasNextPage)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.PageViewModel.PageNumber + 1 })">Вперед</a>
+            </li>
+        }
+    </ul>
+</nav>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
